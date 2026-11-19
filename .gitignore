@@ -1,0 +1,14 @@
+# Bytecode & compiled files
+*.class
+*.pyc
+__pycache__/
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Scratch & logs
+scratch/
+*.log

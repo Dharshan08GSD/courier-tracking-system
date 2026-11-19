@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SwiftRoute — Courier & Parcel Tracking Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #60a5fa;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --card-hover: #1e293b;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.75rem;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--text-main);
+    }
+
+    .badge-pill {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      background: rgba(37, 99, 235, 0.15);
+      color: var(--primary-light);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      font-weight: 600;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 5rem 0 3.5rem;
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, rgba(11, 15, 25, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    .hero-pretitle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: var(--primary-light);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 3.25rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      margin-bottom: 2.5rem;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Tracking Box */
+    .tracking-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+
+    .track-form {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .track-input {
+      flex: 1;
+      padding: 1rem 1.25rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+      font-family: var(--font-mono);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .track-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn {
+      padding: 0.9rem 1.75rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .quick-tracks {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .quick-tag {
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      color: var(--primary-light);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      transition: all 0.15s ease;
+    }
+
+    .quick-tag:hover {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    /* Live Tracking Result Container */
+    #tracking-result {
+      margin-top: 1.5rem;
+      display: none;
+    }
+
+    .result-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #1e293b;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .status-badge {
+      padding: 0.35rem 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-delivered { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .status-transit { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .status-out { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .status-booked { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .status-returned { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+      margin: 1.5rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 5px;
+      bottom: 5px;
+      width: 2px;
+      background: #334155;
+    }
+
+    .timeline-step {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .timeline-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2rem;
+      top: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 3px solid var(--primary);
+    }
+
+    .timeline-step.active .timeline-dot {
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .timeline-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Stats Grid */
+    .stats-section {
+      padding: 3rem 0;
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(17, 24, 39, 0.5);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: #3b82f6;
+    }
+
+    .stat-icon {
+      font-size: 1.5rem;
+      color: var(--primary-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.25rem;
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Booking Calculator Section */
+    .calculator-section {
+      padding: 5rem 0;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .calc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.25rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #e2e8f0;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: white;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .receipt-box {
+      background: #0f172a;
+      border: 1px dashed #334155;
+      border-radius: 12px;
+      padding: 1.75rem;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .receipt-total {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #334155;
+      padding-top: 1rem;
+      margin-top: 1rem;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    /* Visualizations Section */
+    .visualizations-section {
+      padding: 5rem 0;
+      background: rgba(17, 24, 39, 0.4);
+      border-top: 1px solid var(--card-border);
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 2rem;
+    }
+
+    .chart-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .chart-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .chart-img-wrap {
+      width: 100%;
+      height: 250px;
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .chart-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .chart-card:hover .chart-img-wrap img {
+      transform: scale(1.03);
+    }
+
+    .chart-body {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .chart-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .chart-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Shipments Table Section */
+    .table-section {
+      padding: 5rem 0;
+    }
+
+    .table-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow-x: auto;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .custom-table th {
+      background: #0f172a;
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .custom-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #1f2937;
+      color: #e2e8f0;
+    }
+
+    .custom-table tr:hover td {
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .mono-cell {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--primary-light);
+    }
+
+    /* Docs Navigation Cards */
+    .docs-section {
+      padding: 5rem 0;
+      border-top: 1px solid var(--card-border);
+      background: #0c111d;
+    }
+
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .doc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .doc-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
+    }
+
+    .doc-icon {
+      font-size: 1.5rem;
+      color: var(--primary-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .doc-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .doc-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 3rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-brand {
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.25rem; }
+      .calc-grid { grid-template-columns: 1fr; }
+      .track-form { flex-direction: column; }
+      .nav-links { display: none; }
+      .charts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-box-open"></i></div>
+        <span>SwiftRoute</span>
+        <span class="badge-pill">Scenario 26</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#track">Live Tracking</a></li>
+        <li><a href="#calculator">Book & Estimate</a></li>
+        <li><a href="#analytics">Python Analytics</a></li>
+        <li><a href="#shipments">Database Records</a></li>
+        <li><a href="#documentation">Docs</a></li>
+      </ul>
+      <a href="https://github.com" target="_blank" class="btn btn-primary" id="github-link">
+        <i class="fa-brands fa-github"></i> GitHub Repo
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="track">
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+      <div class="hero-pretitle">
+        <i class="fa-solid fa-graduation-cap"></i> Velalar College of Engineering & Technology — IT Dept
+      </div>
+      <h1>Courier & Parcel Tracking<br>Management System</h1>
+      <p>An enterprise-grade logistics pipeline combining <strong>Java Console App</strong>, <strong>SQLite Database</strong>, and <strong>Python Data Analytics</strong>.</p>
+
+      <!-- Tracking Card -->
+      <div class="tracking-card">
+        <h3 style="margin-bottom: 0.75rem; font-size: 1.15rem; font-weight: 700;">
+          <i class="fa-solid fa-satellite-dish" style="color: var(--primary-light); margin-right: 0.5rem;"></i> Real-Time Parcel Tracker
+        </h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem;">Enter your 23-character parcel tracking number to get real-time checkpoint updates.</p>
+        
+        <form class="track-form" onsubmit="event.preventDefault(); trackParcel();">
+          <input type="text" id="trackInput" class="track-input" placeholder="e.g. TRK20241101100001" required>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> Track Shipment
+          </button>
+        </form>
+
+        <div class="quick-tracks">
+          <span>Quick Test Numbers:</span>
+          <span class="quick-tag" onclick="quickTrack('TRK20241101100001')">TRK...0001 (Delivered)</span>
+          <span class="quick-tag" onclick="quickTrack('TRK20241102111502')">TRK...0002 (In Transit)</span>
+          <span class="quick-tag" onclick="quickTrack('TRK20241104140004')">TRK...0004 (Out for Delivery)</span>
+          <span class="quick-tag" onclick="quickTrack('TRK20241109153009')">TRK...0009 (Returned)</span>
+        </div>
+
+        <!-- Dynamic Tracking Result Box -->
+        <div id="tracking-result">
+          <div class="result-box">
+            <div class="result-header">
+              <div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Tracking Number</div>
+                <div style="font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--primary-light);" id="res-trk">TRK20241101100001</div>
+              </div>
+              <div>
+                <span id="res-badge" class="status-badge status-delivered">DELIVERED</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; font-size: 0.9rem;">
+              <div>
+                <div style="color: var(--text-muted);">From</div>
+                <strong id="res-sender">Aarav Sharma (Bengaluru)</strong>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Destination</div>
+                <strong id="res-dest">New Delhi, Delhi</strong>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Service Type</div>
+                <strong id="res-service">Express (₹180.00)</strong>
+              </div>
+              <div>
+                <div style="color: var(--text-muted);">Weight</div>
+                <strong id="res-weight">1.50 kg (Small Package)</strong>
+              </div>
+            </div>
+
+            <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; color: #cbd5e1;">Shipment Progress History</h4>
+            <div class="timeline" id="res-timeline">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Stats -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+          <div class="stat-value" id="stat-total">10</div>
+          <div class="stat-label">Total Booked Parcels</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--success);"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="stat-value" id="stat-delivered" style="color: var(--success);">2</div>
+          <div class="stat-label">Delivered Successfully</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--primary-light);"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="stat-value" id="stat-pending" style="color: var(--primary-light);">7</div>
+          <div class="stat-label">Active / In Transit</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--danger);"><i class="fa-solid fa-arrow-rotate-left"></i></div>
+          <div class="stat-value" id="stat-returned" style="color: var(--danger);">1</div>
+          <div class="stat-label">Returned Parcels</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--accent);"><i class="fa-solid fa-users"></i></div>
+          <div class="stat-value">6</div>
+          <div class="stat-label">Active Field Personnel</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking & Charge Estimator -->
+  <section class="calculator-section" id="calculator">
+    <div class="container">
+      <div class="section-header">
+        <h2>Parcel Booking & Rate Estimator</h2>
+        <p>Uses the exact business logic formula from the Java <code>ParcelDAO.calculateCharge()</code> implementation.</p>
+      </div>
+
+      <div class="calc-grid">
+        <div class="calc-card">
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem;">
+            <i class="fa-solid fa-calculator" style="color: var(--primary-light);"></i> Shipment Specifications
+          </h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Parcel Type</label>
+              <select id="calcType" class="form-control">
+                <option value="Document">Document</option>
+                <option value="Small Package" selected>Small Package</option>
+                <option value="Medium Package">Medium Package</option>
+                <option value="Large Package">Large Package</option>
+                <option value="Fragile">Fragile</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Weight (kg)</label>
+              <input type="number" id="calcWeight" class="form-control" value="2.5" step="0.1" min="0.1" max="100" oninput="calculateCharge()">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Service Type</label>
+              <select id="calcService" class="form-control" onchange="calculateCharge()">
+                <option value="Standard">Standard (Base ₹50/kg)</option>
+                <option value="Express" selected>Express (Base ₹80/kg)</option>
+                <option value="Overnight">Overnight (Base ₹120/kg)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Distance Category</label>
+              <select id="calcDistance" class="form-control" onchange="calculateCharge()">
+                <option value="Local">Local (1.0x)</option>
+                <option value="Regional">Regional (1.5x)</option>
+                <option value="National" selected>National (2.0x)</option>
+                <option value="International">International (3.5x)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Destination City</label>
+            <input type="text" id="calcDest" class="form-control" value="Mumbai, Maharashtra">
+          </div>
+
+          <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="bookSimulatedParcel()">
+            <i class="fa-solid fa-check"></i> Generate Simulated Booking
+          </button>
+        </div>
+
+        <!-- Live Cost Receipt -->
+        <div class="receipt-box">
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem;">
+            <i class="fa-solid fa-receipt" style="color: var(--accent);"></i> Charge Breakdown
+          </h3>
+          <div class="receipt-row">
+            <span>Weight:</span>
+            <span id="rec-weight">2.50 kg</span>
+          </div>
+          <div class="receipt-row">
+            <span>Service Base Rate:</span>
+            <span id="rec-base">₹80.00 / kg</span>
+          </div>
+          <div class="receipt-row">
+            <span>Distance Multiplier:</span>
+            <span id="rec-mult">2.0x</span>
+          </div>
+          <div class="receipt-row">
+            <span>Formula:</span>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem;">Wt × Base × Mult</span>
+          </div>
+          <div class="receipt-total">
+            <span>Total Charge:</span>
+            <span id="rec-total">₹400.00</span>
+          </div>
+          <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+            * Taxes included. Corresponds exactly with <code>Parcels.delivery_charge</code> in SQLite.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Python Visualizations Gallery -->
+  <section class="visualizations-section" id="analytics">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge-pill" style="margin-bottom: 0.5rem; display: inline-block;">Unit 5: Exploratory Data Analysis</span>
+        <h2>Python Data Science Visualizations</h2>
+        <p>Charts dynamically rendered by <code>python/visualization.py</code> at 300 DPI from SQLite database extracts.</p>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-img-wrap">
+            <img src="python/visualizations/parcel_status_distribution.png" alt="Status Distribution">
+          </div>
+          <div class="chart-body">
+            <div class="chart-title">1. Status Distribution (Pie Chart)</div>
+            <div class="chart-desc">Proportions of Booked, In Transit, Out for Delivery, Delivered, and Returned shipments.</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-img-wrap">
+            <img src="python/visualizations/delivery_charges_by_service.png" alt="Delivery Charges by Service">
+          </div>
+          <div class="chart-body">
+            <div class="chart-title">2. Average Delivery Charges (Bar Chart)</div>
+            <div class="chart-desc">Compares mean delivery fee across Standard, Express, and Overnight tiers.</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-img-wrap">
+            <img src="python/visualizations/shipment_volume_trend.png" alt="Shipment Volume Trend">
+          </div>
+          <div class="chart-body">
+            <div class="chart-title">3. Monthly Volume Trend (Line Chart)</div>
+            <div class="chart-desc">Tracks parcel booking frequency over time to forecast logistical load.</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-img-wrap">
+            <img src="python/visualizations/weight_vs_charge.png" alt="Weight vs Charge">
+          </div>
+          <div class="chart-body">
+            <div class="chart-title">4. Weight vs Delivery Charge (Scatter Plot)</div>
+            <div class="chart-desc">Linear correlation scatter colored by service class.</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-img-wrap">
+            <img src="python/visualizations/personnel_workload.png" alt="Personnel Workload">
+          </div>
+          <div class="chart-body">
+            <div class="chart-title">5. Delivery Personnel Workload (Horizontal Bar)</div>
+            <div class="chart-desc">Displays assignment counts per courier to balance operational workload.</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-img-wrap">
+            <img src="python/visualizations/distance_category_analysis.png" alt="Distance Category Analysis">
+          </div>
+          <div class="chart-body">
+            <div class="chart-title">6. Distance × Service Breakdown (Grouped Bar)</div>
+            <div class="chart-desc">Multi-variable breakdown of volume across Local, Regional, National, and International.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Shipments Table -->
+  <section class="table-section" id="shipments">
+    <div class="container">
+      <div class="section-header">
+        <h2>Database Parcel Registry</h2>
+        <p>Live snapshot of parcels stored in SQLite <code>parcels</code> table.</p>
+      </div>
+
+      <div class="table-card">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tracking Number</th>
+              <th>Sender</th>
+              <th>Destination</th>
+              <th>Weight</th>
+              <th>Service</th>
+              <th>Charge</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="parcelsTableBody">
+            <!-- Injected by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Docs Section -->
+  <section class="docs-section" id="documentation">
+    <div class="container">
+      <div class="section-header">
+        <h2>Engineering Deliverables & Documentation</h2>
+        <p>Structured academic documents aligned with Velalar College curriculum guidelines.</p>
+      </div>
+
+      <div class="docs-grid">
+        <a href="docs/SRS.md" class="doc-card" target="_blank">
+          <div>
+            <div class="doc-icon"><i class="fa-solid fa-file-lines"></i></div>
+            <div class="doc-title">SRS Document</div>
+            <div class="doc-desc">IEEE Software Requirements Specification covering all 9 scenario functional requirements.</div>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--primary-light); margin-top: 1rem;">View SRS.md →</span>
+        </a>
+
+        <a href="docs/system_architecture.md" class="doc-card" target="_blank">
+          <div>
+            <div class="doc-icon"><i class="fa-solid fa-sitemap"></i></div>
+            <div class="doc-title">System Architecture</div>
+            <div class="doc-desc">3-tier presentation, business logic, and database architecture with Mermaid diagrams.</div>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--primary-light); margin-top: 1rem;">View Architecture →</span>
+        </a>
+
+        <a href="docs/er_diagram.md" class="doc-card" target="_blank">
+          <div>
+            <div class="doc-icon"><i class="fa-solid fa-diagram-project"></i></div>
+            <div class="doc-title">ER Diagram</div>
+            <div class="doc-desc">Complete entity-relationship model for all 6 tables with cardinality notations.</div>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--primary-light); margin-top: 1rem;">View ER Diagram →</span>
+        </a>
+
+        <a href="docs/relational_model.md" class="doc-card" target="_blank">
+          <div>
+            <div class="doc-icon"><i class="fa-solid fa-table"></i></div>
+            <div class="doc-title">Relational Model</div>
+            <div class="doc-desc">Formal relational notation with primary keys, foreign keys, and referential integrity.</div>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--primary-light); margin-top: 1rem;">View Relational Model →</span>
+        </a>
+
+        <a href="docs/normalization.md" class="doc-card" target="_blank">
+          <div>
+            <div class="doc-icon"><i class="fa-solid fa-filter"></i></div>
+            <div class="doc-title">Normalization Analysis</div>
+            <div class="doc-desc">Step-by-step verification proving every table satisfies 1NF, 2NF, 3NF, and BCNF.</div>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--primary-light); margin-top: 1rem;">View Normalization →</span>
+        </a>
+
+        <a href="docs/testing.md" class="doc-card" target="_blank">
+          <div>
+            <div class="doc-icon"><i class="fa-solid fa-vial-circle-check"></i></div>
+            <div class="doc-title">Testing & Test Cases</div>
+            <div class="doc-desc">25 positive, negative, and boundary test cases with expected vs actual results.</div>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--primary-light); margin-top: 1rem;">View Test Cases →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-brand">Courier and Parcel Tracking Management System</div>
+      <p>Velalar College of Engineering and Technology, Erode-12 — Department of Information Technology</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem;">Academic Assessment 2026-27 (ODD) | Scenario 26 (Register No: 26, 56, 86, 116)</p>
+    </div>
+  </footer>
+
+  <!-- Embedded Data & Interactive Scripts -->
+  <script>
+    // Sample dataset mirroring database/courier_tracking.db
+    const PARCELS = [
+      { id: 1, trk: "TRK20241101100001", sender: "Aarav Sharma", receiver: "Priya Verma", dest: "New Delhi, Delhi", type: "Document", weight: 0.5, service: "Express", dist: "National", charge: 80.0, status: "Delivered",
+        history: [
+          { status: "Booked", loc: "Bengaluru Hub", time: "2024-11-01 10:00:00" },
+          { status: "In Transit", loc: "Hyderabad Sorting Hub", time: "2024-11-01 22:30:00" },
+          { status: "Out for Delivery", loc: "Delhi Central Hub", time: "2024-11-03 08:30:00" },
+          { status: "Delivered", loc: "Connaught Place, New Delhi", time: "2024-11-03 14:15:00" }
+        ]
+      },
+      { id: 2, trk: "TRK20241102111502", sender: "Priya Verma", receiver: "Rohit Mehta", dest: "Pune, Maharashtra", type: "Small Package", weight: 1.5, service: "Standard", dist: "National", charge: 150.0, status: "In Transit",
+        history: [
+          { status: "Booked", loc: "New Delhi Origin Hub", time: "2024-11-02 11:15:00" },
+          { status: "In Transit", loc: "Jaipur Sorting Center", time: "2024-11-03 04:00:00" },
+          { status: "In Transit", loc: "Mumbai Transshipment Hub", time: "2024-11-04 09:30:00" }
+        ]
+      },
+      { id: 3, trk: "TRK20241103093003", sender: "Rohit Mehta", receiver: "Aarav Sharma", dest: "Bengaluru, Karnataka", type: "Fragile", weight: 2.0, service: "Express", dist: "Regional", charge: 240.0, status: "Delivered",
+        history: [
+          { status: "Booked", loc: "Pune FC Road Branch", time: "2024-11-03 09:30:00" },
+          { status: "In Transit", loc: "Hubli Junction", time: "2024-11-03 20:00:00" },
+          { status: "Out for Delivery", loc: "Bengaluru South Hub", time: "2024-11-04 08:00:00" },
+          { status: "Delivered", loc: "MG Road, Bengaluru", time: "2024-11-04 11:45:00" }
+        ]
+      },
+      { id: 4, trk: "TRK20241104140004", sender: "Sneha Iyer", receiver: "Deepak Gupta", dest: "Lucknow, Uttar Pradesh", type: "Medium Package", weight: 4.5, service: "Standard", dist: "National", charge: 450.0, status: "Out for Delivery",
+        history: [
+          { status: "Booked", loc: "Chennai Central Hub", time: "2024-11-04 14:00:00" },
+          { status: "In Transit", loc: "Nagpur Sorting Facility", time: "2024-11-05 18:00:00" },
+          { status: "Out for Delivery", loc: "Lucknow Delivery Depot", time: "2024-11-07 07:30:00" }
+        ]
+      },
+      { id: 5, trk: "TRK20241105164505", sender: "Vikram Singh", receiver: "Kavitha Reddy", dest: "Hyderabad, Telangana", type: "Large Package", weight: 8.0, service: "Overnight", dist: "National", charge: 1920.0, status: "In Transit",
+        history: [
+          { status: "Booked", loc: "Jaipur Express Center", time: "2024-11-05 16:45:00" },
+          { status: "In Transit", loc: "Bhopal Air Cargo Hub", time: "2024-11-06 02:00:00" }
+        ]
+      },
+      { id: 6, trk: "TRK20241106102006", sender: "Anjali Nair", receiver: "Sneha Iyer", dest: "Chennai, Tamil Nadu", type: "Small Package", weight: 1.2, service: "Express", dist: "Regional", charge: 144.0, status: "In Transit",
+        history: [
+          { status: "Booked", loc: "Kochi Marine Drive Depot", time: "2024-11-06 10:20:00" },
+          { status: "In Transit", loc: "Coimbatore Hub", time: "2024-11-06 21:00:00" }
+        ]
+      },
+      { id: 7, trk: "TRK20241107120007", sender: "Deepak Gupta", receiver: "Vikram Singh", dest: "Jaipur, Rajasthan", type: "Document", weight: 0.3, service: "Standard", dist: "Regional", charge: 50.0, status: "Booked",
+        history: [
+          { status: "Booked", loc: "Lucknow Hazratganj Office", time: "2024-11-07 12:00:00" }
+        ]
+      },
+      { id: 8, trk: "TRK20241108083008", sender: "Kavitha Reddy", receiver: "Anjali Nair", dest: "Kochi, Kerala", type: "Medium Package", weight: 3.0, service: "Overnight", dist: "National", charge: 720.0, status: "Out for Delivery",
+        history: [
+          { status: "Booked", loc: "Hyderabad Banjara Hills Hub", time: "2024-11-08 08:30:00" },
+          { status: "In Transit", loc: "Bengaluru Air Hub", time: "2024-11-08 19:00:00" },
+          { status: "Out for Delivery", loc: "Kochi Ernakulam Depot", time: "2024-11-09 07:00:00" }
+        ]
+      },
+      { id: 9, trk: "TRK20241109153009", sender: "Aarav Sharma", receiver: "Deepak Gupta", dest: "Lucknow, Uttar Pradesh", type: "Fragile", weight: 2.5, service: "Express", dist: "National", charge: 400.0, status: "Returned",
+        history: [
+          { status: "Booked", loc: "Bengaluru Main Facility", time: "2024-11-09 15:30:00" },
+          { status: "In Transit", loc: "Nagpur Hub", time: "2024-11-10 20:00:00" },
+          { status: "Out for Delivery", loc: "Lucknow Branch", time: "2024-11-12 09:00:00" },
+          { status: "Returned", loc: "Lucknow RTO Depot (Address Incorrect)", time: "2024-11-13 16:00:00" }
+        ]
+      },
+      { id: 10, trk: "TRK20241110110010", sender: "Priya Verma", receiver: "Sneha Iyer", dest: "Chennai, Tamil Nadu", type: "Small Package", weight: 1.0, service: "Overnight", dist: "National", charge: 240.0, status: "Booked",
+        history: [
+          { status: "Booked", loc: "New Delhi Airport Logistics", time: "2024-11-10 11:00:00" }
+        ]
+      }
+    ];
+
+    // Populate Parcels Table
+    function renderTable() {
+      const tbody = document.getElementById("parcelsTableBody");
+      tbody.innerHTML = "";
+      PARCELS.forEach(p => {
+        const badgeClass = getBadgeClass(p.status);
+        const row = `
+          <tr>
+            <td>${p.id}</td>
+            <td class="mono-cell">${p.trk}</td>
+            <td>${p.sender}</td>
+            <td>${p.dest}</td>
+            <td>${p.weight.toFixed(1)} kg</td>
+            <td>${p.service}</td>
+            <td style="color: var(--success); font-weight: 600;">₹${p.charge.toFixed(2)}</td>
+            <td><span class="status-badge ${badgeClass}">${p.status}</span></td>
+          </tr>
+        `;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function getBadgeClass(status) {
+      switch(status) {
+        case "Delivered": return "status-delivered";
+        case "In Transit": return "status-transit";
+        case "Out for Delivery": return "status-out";
+        case "Booked": return "status-booked";
+        case "Returned": return "status-returned";
+        default: return "status-transit";
+      }
+    }
+
+    // Tracking Function
+    function trackParcel() {
+      const query = document.getElementById("trackInput").value.trim().toUpperCase();
+      const parcel = PARCELS.find(p => p.trk.toUpperCase() === query);
+      const resDiv = document.getElementById("tracking-result");
+
+      if (!parcel) {
+        alert("Parcel tracking number not found. Try one of the quick test numbers below!");
+        return;
+      }
+
+      document.getElementById("res-trk").innerText = parcel.trk;
+      const badge = document.getElementById("res-badge");
+      badge.className = `status-badge ${getBadgeClass(parcel.status)}`;
+      badge.innerText = parcel.status.toUpperCase();
+
+      document.getElementById("res-sender").innerText = `${parcel.sender}`;
+      document.getElementById("res-dest").innerText = parcel.dest;
+      document.getElementById("res-service").innerText = `${parcel.service} (₹${parcel.charge.toFixed(2)})`;
+      document.getElementById("res-weight").innerText = `${parcel.weight.toFixed(2)} kg (${parcel.type})`;
+
+      const timeline = document.getElementById("res-timeline");
+      timeline.innerHTML = "";
+      parcel.history.forEach((h, idx) => {
+        const isLatest = idx === parcel.history.length - 1;
+        timeline.innerHTML += `
+          <div class="timeline-step ${isLatest ? 'active' : ''}">
+            <div class="timeline-dot"></div>
+            <div class="timeline-title">${h.status} — <span style="font-weight: 400; color: #cbd5e1;">${h.loc}</span></div>
+            <div class="timeline-meta"><i class="fa-regular fa-clock"></i> ${h.time}</div>
+          </div>
+        `;
+      });
+
+      resDiv.style.display = "block";
+      resDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function quickTrack(trk) {
+      document.getElementById("trackInput").value = trk;
+      trackParcel();
+    }
+
+    // Charge Calculator
+    function calculateCharge() {
+      const weight = parseFloat(document.getElementById("calcWeight").value) || 0;
+      const service = document.getElementById("calcService").value;
+      const distance = document.getElementById("calcDistance").value;
+
+      let base = 50.0;
+      if (service === "Express") base = 80.0;
+      if (service === "Overnight") base = 120.0;
+
+      let mult = 1.0;
+      if (distance === "Regional") mult = 1.5;
+      if (distance === "National") mult = 2.0;
+      if (distance === "International") mult = 3.5;
+
+      const total = weight * base * mult;
+
+      document.getElementById("rec-weight").innerText = `${weight.toFixed(2)} kg`;
+      document.getElementById("rec-base").innerText = `₹${base.toFixed(2)} / kg`;
+      document.getElementById("rec-mult").innerText = `${mult.toFixed(1)}x`;
+      document.getElementById("rec-total").innerText = `₹${total.toFixed(2)}`;
+
+      return total;
+    }
+
+    function bookSimulatedParcel() {
+      const charge = calculateCharge();
+      const weight = parseFloat(document.getElementById("calcWeight").value) || 1.0;
+      const type = document.getElementById("calcType").value;
+      const dest = document.getElementById("calcDest").value;
+      const service = document.getElementById("calcService").value;
+      const distance = document.getElementById("calcDistance").value;
+
+      const now = new Date();
+      const ts = now.toISOString().replace(/[-:T]/g, '').slice(0, 14);
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      const newTrk = `TRK${ts}${rand}`;
+
+      const newParcel = {
+        id: PARCELS.length + 1,
+        trk: newTrk,
+        sender: "User Demo (Sender)",
+        receiver: "Receiver Contact",
+        dest: dest,
+        type: type,
+        weight: weight,
+        service: service,
+        dist: distance,
+        charge: charge,
+        status: "Booked",
+        history: [
+          { status: "Booked", loc: "Origin Service Hub", time: now.toISOString().replace('T', ' ').slice(0, 19) }
+        ]
+      };
+
+      PARCELS.unshift(newParcel);
+      renderTable();
+      quickTrack(newTrk);
+      alert(`✔ Booking Successful!\n\nTracking Number: ${newTrk}\nCalculated Charge: ₹${charge.toFixed(2)}\n\nYour parcel is now in the tracking system!`);
+    }
+
+    // Initialize on load
+    window.addEventListener("DOMContentLoaded", () => {
+      renderTable();
+      calculateCharge();
+    });
+  </script>
+</body>
+</html>
