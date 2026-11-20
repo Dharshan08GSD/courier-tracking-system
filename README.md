@@ -203,9 +203,9 @@ Each menu option has sub-menus for Add / View / Update / Delete / List operation
 ---
 
 ## 👤 Author
-
-**Register No.:** 26 / 56 / 86 / 116  
-**Class:** 25IT3A&B  
+**Name:** Dharshan S
+**Register No.:** 26 
+**Class:** 25IT3A
 **Institution:** Velalar College of Engineering and Technology, Erode-12
 
 ---
