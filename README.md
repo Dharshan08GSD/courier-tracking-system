@@ -4,6 +4,10 @@
 > **Department of Information Technology** | Class: 25IT3A&B | AY: 2026–27 (ODD)  
 > **Courses:** 25ITT31 (DBMS) · 25ITT32 (Java Programming) · 25ITC31 (Data Science) · 25ITT33 (Software Engineering)
 
+[![Live Web Portal](https://img.shields.io/badge/Live%20Website-GitHub%20Pages-2563eb?style=for-the-badge&logo=github)](https://dharshan08gsd.github.io/courier-tracking-system/)
+🌐 **Live Website URL:** [https://dharshan08gsd.github.io/courier-tracking-system/](https://dharshan08gsd.github.io/courier-tracking-system/)
+
+
 ---
 
 ## 📋 Project Description
