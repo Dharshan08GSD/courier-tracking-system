@@ -51,10 +51,13 @@ project 2/
 │   ├── system_architecture.md   # Architecture + Sequence Diagrams
 │   ├── use_case_diagram.md      # Use Case Diagram (Mermaid)
 │   ├── class_diagram.md         # Class Diagram (Mermaid)
+│   ├── activity_diagram.md      # Activity Diagram (UML 2.5 with Fork/Join)
+│   ├── component_diagram.md     # Component Diagram with Ports & Interfaces
 │   ├── er_diagram.md            # ER Diagram (Mermaid)
 │   ├── relational_model.md      # Relational Model
 │   ├── normalization.md         # 1NF → BCNF Analysis
-│   └── testing.md               # 25 Test Cases
+│   ├── testing.md               # 25 Test Cases
+│   └── software_engineering_units.md # Role of Units 1 to 5 (25ITT33 Course)
 ├── sql/
 │   ├── schema.sql               # DDL — All 6 tables
 │   └── sample_data.sql          # Sample data (8–10 records/table)
@@ -199,10 +202,13 @@ Each menu option has sub-menus for Add / View / Update / Delete / List operation
 | [System Architecture](docs/system_architecture.md) | Architecture + Data Flow diagrams |
 | [Use Case Diagram](docs/use_case_diagram.md) | Actor-use case relationships |
 | [Class Diagram](docs/class_diagram.md) | Java class structure |
+| [Activity Diagram](docs/activity_diagram.md) | UML 2.5 workflow diagram with parallel fork/join & decision points |
+| [Component Diagram](docs/component_diagram.md) | Component-level design with ports, provided & required interfaces |
 | [ER Diagram](docs/er_diagram.md) | Entity-relationship model |
 | [Relational Model](docs/relational_model.md) | Schema in relational notation |
 | [Normalization](docs/normalization.md) | 1NF → BCNF analysis for all 6 tables |
 | [Testing](docs/testing.md) | 25 test cases with expected/actual results |
+| [Software Engineering Units](docs/software_engineering_units.md) | Comprehensive mapping & analysis of all 5 units for 25ITT33 |
 
 ---
 
